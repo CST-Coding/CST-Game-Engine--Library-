@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 //Create a simple GUI window
+@SuppressWarnings("unused")
 public class render {
 	
 	protected static int x = 0;
