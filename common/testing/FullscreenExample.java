@@ -24,10 +24,44 @@ public class FullscreenExample {
 	
 	/** is VSync Enabled */
 	boolean vsync;
+	
+	int width;
+	
+	int height;
+	
+	private DisplayMode displaySize;
+	
+	boolean fullscreen = Display.isFullscreen();	
+	/**
+	 * 
+	 * @param width The width of the screen
+	 * @param height The height of the screen
+	 */
+	
+	public void DisplaySize(int width, int height) {
+		
+		displaySize = new DisplayMode(width, height);
+		this.width = width;
+		this.height = height;
+	}
+	
+	/**
+	 * 
+	 * @param width The width of the screen
+	 * @param height The height of the screen
+	 * @param fullscreen Sets if the display is fullscreen by default or not
+	 */
+	public void DisplaySize(int width, int height, boolean fullscreen) {
+		
+		displaySize = new DisplayMode(width, height);
+		this.width = width;
+		this.height = height;
+		this.fullscreen = fullscreen;
+	}
  
 	public void start() {
 		try {
-			Display.setDisplayMode(new DisplayMode(800, 600));
+			Display.setDisplayMode(displaySize);
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
@@ -64,7 +98,8 @@ public class FullscreenExample {
 		while (Keyboard.next()) {
 		    if (Keyboard.getEventKeyState()) {
 		        if (Keyboard.getEventKey() == Keyboard.KEY_F) {
-		        	setDisplayMode(800, 600, !Display.isFullscreen());
+		        	fullscreen = !fullscreen;
+		        	setDisplayMode(width, height, fullscreen);
 		        }
 		        else if (Keyboard.getEventKey() == Keyboard.KEY_V) {
 		        	vsync = !vsync;
@@ -75,9 +110,9 @@ public class FullscreenExample {
 		
 		// keep quad on the screen
 		if (x < 0) x = 0;
-		if (x > 800) x = 800;
+		if (x > width) x = width;
 		if (y < 0) y = 0;
-		if (y > 600) y = 600;
+		if (y > height) y = height;
  
 		updateFPS(); // update FPS Counter
 	}
@@ -181,7 +216,7 @@ public class FullscreenExample {
 	public void initGL() {
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, 800, 0, 600, 1, -1);
+		GL11.glOrtho(0, width, 0, height, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
  
@@ -206,9 +241,5 @@ public class FullscreenExample {
 			GL11.glEnd();
 		GL11.glPopMatrix();
 	}
- 
-	public static void main(String[] argv) {
-		FullscreenExample fullscreenExample = new FullscreenExample();
-		fullscreenExample.start();
-	}
+	
 }
