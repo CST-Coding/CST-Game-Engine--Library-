@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class RoundButton extends JButton {
   public RoundButton(String label) {
     super(label);
@@ -69,7 +70,7 @@ public class RoundButton extends JButton {
     frame.getContentPane().setBackground(Color.yellow);
     frame.getContentPane().add(button);
     frame.getContentPane().setLayout(new FlowLayout());
-    frame.setSize(150, 150);
+    frame.setSize(800, 600);
     frame.setVisible(true);
   }
 }

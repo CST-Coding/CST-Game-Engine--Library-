@@ -1,5 +1,8 @@
 package testing;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -11,6 +14,7 @@ public class FullscreenExample {
  
 	/** position of quad */
 	float x = 400, y = 300;
+	
 	/** angle of quad rotation */
 	float rotation = 0;
  
@@ -19,6 +23,7 @@ public class FullscreenExample {
  
 	/** frames per second */
 	int fps;
+	
 	/** last fps time */
 	long lastFPS;
 	
@@ -29,9 +34,14 @@ public class FullscreenExample {
 	
 	int height;
 	
+	int ScreenWidth;
+	
+	int ScreenHeight;
+	
 	private DisplayMode displaySize;
 	
 	boolean fullscreen = Display.isFullscreen();	
+	
 	/**
 	 * 
 	 * @param width The width of the screen
@@ -57,12 +67,17 @@ public class FullscreenExample {
 		this.width = width;
 		this.height = height;
 		this.fullscreen = fullscreen;
+		
+		ScreenWidth = Display.getDesktopDisplayMode().getWidth();
+		ScreenHeight = Display.getDesktopDisplayMode().getHeight();
+		
 	}
  
 	public void start() {
 		try {
 			Display.setDisplayMode(displaySize);
 			Display.create();
+			setFullscreen();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -83,6 +98,16 @@ public class FullscreenExample {
 		}
  
 		Display.destroy();
+	}
+	
+	public void setFullscreen() throws LWJGLException {
+		
+		if (fullscreen) {
+			
+			DisplayMode FullscreenDisplay = new DisplayMode(ScreenWidth, ScreenHeight);
+			Display.setDisplayMode(FullscreenDisplay);
+			Display.setFullscreen(fullscreen);
+		}
 	}
  
 	public void update(int delta) {
